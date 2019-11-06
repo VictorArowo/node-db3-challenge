@@ -8,10 +8,12 @@ const findById = id => {
   return db('schemes').where('id', '=', id);
 };
 
-const findBySteps = id => {
-  return db('schemes')
-    .join('steps', 'schemes.id', 'steps.scheme_id')
-    .where(id, '=', id);
+const findSteps = id => {
+  return db('schemes as s')
+    .join('steps as t', 't.scheme_id', 's.id')
+    .select('t.step_number', 't.instructions', 's.scheme_name ')
+    .orderBy('t.step_number', 'asc')
+    .where('s.id', '=', id);
 };
 
 const addScheme = async body => {
@@ -35,7 +37,7 @@ const remove = id => {
 module.exports = {
   find,
   findById,
-  findBySteps,
+  findSteps,
   addScheme,
   update,
   remove

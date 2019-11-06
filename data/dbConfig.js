@@ -1,4 +1,4 @@
-const knex = requuire('knex');
+const knex = require('knex');
 
 const configOptions = require('../knexfile');
 
