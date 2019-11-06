@@ -5,7 +5,9 @@ const find = () => {
 };
 
 const findById = id => {
-  return db('schemes').where('id', '=', id);
+  return db('schemes')
+    .where('id', '=', id)
+    .first();
 };
 
 const findSteps = id => {
@@ -19,6 +21,11 @@ const findSteps = id => {
 const addScheme = async body => {
   let [id] = await db('schemes').insert(body);
   return findById(id);
+};
+
+const addStep = async (step, scheme_id) => {
+  await db('steps').insert({ ...step, scheme_id });
+  return findSteps(scheme_id);
 };
 
 const update = async (changes, id) => {
@@ -39,6 +46,7 @@ module.exports = {
   findById,
   findSteps,
   addScheme,
+  addStep,
   update,
   remove
 };
